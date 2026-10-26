@@ -1,0 +1,28 @@
+---
+description: Frame With Me Spec Kit constitution — security, memory, SoC, i18n, testing
+alwaysApply: true
+---
+
+# Frame With Me — always apply
+
+Read and obey `.specify/memory/constitution.md` for every change.
+
+## Priorities
+1. Security & user data safety  
+2. Memory efficiency / no leaks  
+3. On-demand loading & perceived speed  
+4. Separation of concerns (UI → use-cases → repositories → adapters)  
+5. Reusable design-system UI + en/te/hi i18n  
+6. Tests for domain logic  
+
+## Hard rules
+- Admin controls = **web app only**, not Android
+- Notifications/payments only via **ports/adapters**
+- No hardcoded user-facing strings; use `t()` / i18n keys
+- Paginate lists; never fetch all rows for UI
+- After every code change: complete `.specify/checklists/post-change-security-memory.md` and report PASS/FAIL in the reply
+- User-facing work: run Customer Perspective Agent (`.cursor/agents/customer-perspective.md`)
+
+## Spec Kit
+Active feature: `.specify/feature.json` → `specs/001-mvp-android/`  
+Prefer updating `spec.md` / `plan.md` / `tasks.md` when behavior changes.

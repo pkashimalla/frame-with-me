@@ -1,0 +1,21 @@
+---
+description: Force security + memory leak double-check after code edits
+globs: apps/**/*.{ts,tsx,js,jsx},packages/**/*.{ts,tsx,js,jsx}
+alwaysApply: false
+---
+
+# After editing app/package code
+
+Before finishing your turn:
+
+1. Open `.specify/checklists/post-change-security-memory.md`
+2. Mentally verify every checkbox against the diff you just wrote
+3. Fix any FAIL items immediately
+4. End your reply with:
+
+```
+Security: PASS|FAIL — …
+Memory: PASS|FAIL — …
+```
+
+Watch especially for: missing effect cleanup, realtime channels, timers, unbounded arrays, PII in logs, client-trusted auth.

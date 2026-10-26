@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Frame With Me — Creative Wireframes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --void: #070708;
+      --ink: #0e0e10;
+      --panel: #141417;
+      --lift: #1c1c21;
+      --line: rgba(255,255,255,0.08);
+      --line-strong: rgba(255,255,255,0.16);
+      --bone: #efece4;
+      --mute: #8a8794;
+      --gel: #3dd6c3;
+      --gel-dim: rgba(61, 214, 195, 0.14);
+      --amber: #e6b35a;
+      --danger: #e07a5f;
+      --ok: #7dcea0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Sora", system-ui, sans-serif;
+      background:
+        radial-gradient(900px 500px at 10% -10%, rgba(61,214,195,0.08), transparent 55%),
+        radial-gradient(700px 400px at 100% 0%, rgba(230,179,90,0.06), transparent 50%),
+        #050506;
+      color: var(--bone);
+      min-height: 100vh;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+    }
+    aside {
+      background: rgba(10,10,12,0.92);
+      border-right: 1px solid var(--line);
+      padding: 24px 18px;
+      overflow-y: auto;
+      backdrop-filter: blur(12px);
+    }
+    aside .brand {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin: 0 0 4px;
+    }
+    aside .brand span { color: var(--gel); font-style: italic; }
+    aside .tag {
+      font-size: 11px;
+      color: var(--mute);
+      line-height: 1.5;
+      margin: 0 0 22px;
+    }
+    .nav-group { margin-bottom: 20px; }
+    .nav-group h2 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--mute);
+      margin: 0 0 8px;
+      font-weight: 500;
+    }
+    .nav-group button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 0;
+      color: #c8c5be;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      margin-bottom: 2px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-group button:hover { background: var(--lift); color: var(--bone); }
+    .nav-group button.active {
+      background: var(--gel-dim);
+      color: var(--gel);
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 24px 56px;
+      gap: 18px;
+    }
+    .meta { text-align: center; max-width: 420px; }
+    .meta .kicker {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gel);
+      margin-bottom: 8px;
+    }
+    .meta h2 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 32px;
+      font-weight: 400;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    .meta p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--mute);
+      line-height: 1.55;
+    }
+    .phone {
+      width: 372px;
+      height: 760px;
+      background: linear-gradient(160deg, #1a1a1f, #0a0a0c 40%);
+      border-radius: 40px;
+      padding: 10px;
+      border: 1px solid var(--line-strong);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.5),
+        0 40px 80px rgba(0,0,0,0.55);
+      position: relative;
+    }
+    .phone-notch {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 118px;
+      height: 28px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 8;
+    }
+    .screen {
+      background: var(--ink);
+      height: 100%;
+      border-radius: 32px;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      position: relative;
+      animation: rise 0.35s ease;
+    }
+    .screen.active { display: flex; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .status {
+      height: 42px;
+      padding: 14px 20px 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--mute);
+      flex-shrink: 0;
+    }
+    .header {
+      padding: 6px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .header h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 500;
+      flex: 1;
+      letter-spacing: -0.01em;
+    }
+    .header h3.serif {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 24px;
+      font-weight: 400;
+    }
+    .back, .icon-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line-strong);
+      background: var(--lift);
+      border-radius: 10px;
+      color: var(--bone);
+      font-size: 16px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-family: inherit;
+    }
+    .body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 16px 18px;
+      scrollbar-width: thin;
+    }
+    .tabbar {
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 10px 6px 14px;
+      background: rgba(10,10,12,0.95);
+      flex-shrink: 0;
+    }
+    .tabbar button {
+      border: 0;
+      background: transparent;
+      font-size: 10px;
+      color: var(--mute);
+      cursor: pointer;
+      padding: 4px;
+      font-family: inherit;
+    }
+    .tabbar button.on { color: var(--gel); font-weight: 600; }
+    .tabbar .ico { display: block; font-size: 13px; margin-bottom: 3px; opacity: 0.9; }
+
+    .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--mute);
+      margin: 12px 0 6px;
+      font-weight: 500;
+    }
+    .field {
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      background: var(--panel);
+      font-size: 13px;
+      color: var(--mute);
+    }
+    .field.filled { color: var(--bone); }
+    .row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .row .field { flex: 1; margin-bottom: 0; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--bone);
+      color: var(--void);
+      margin-top: 10px;
+      font-family: inherit;
+      letter-spacing: -0.01em;
+      transition: transform 0.12s, opacity 0.12s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn.gel {
+      background: var(--gel);
+      color: #04201c;
+    }
+    .btn.secondary {
+      background: transparent;
+      color: var(--bone);
+      border: 1px solid var(--line-strong);
+    }
+    .btn.ghost {
+      background: transparent;
+      color: var(--mute);
+      border: 0;
+      font-weight: 500;
+    }
+    .btn.sm {
+      width: auto;
+      padding: 9px 14px;
+      font-size: 12px;
+      margin: 0;
+      border-radius: 10px;
+    }
+
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+    .chip {
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      padding: 6px 11px;
+      font-size: 11px;
+      background: var(--panel);
+      color: #c9c6be;
+    }
+    .chip.on {
+      background: var(--gel-dim);
+      border-color: rgba(61,214,195,0.35);
+      color: var(--gel);
+    }
+
+    .hero-mark {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 18px;
+      border-radius: 22px;
+      background:
+        linear-gradient(135deg, rgba(61,214,195,0.25), transparent 55%),
+        var(--lift);
+      border: 1px solid var(--line-strong);
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-mark::after {
+      content: "";
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--gel);
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 6px transparent;
+    }
+    .hero-mark .cross {
+      position: absolute;
+      width: 2px;
+      height: 36px;
+      background: rgba(61,214,195,0.35);
+    }
+    .hero-mark .cross.h { width: 36px; height: 2px; }
+
+    .title-xl {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.05;
+      margin: 0 0 10px;
+      letter-spacing: -0.03em;
+    }
+    .sub {
+      font-size: 13px;
+      color: var(--mute);
+      line-height: 1.5;
+      margin: 0 0 18px;
+    }
+    .center { text-align: center; }
+
+    .otp {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 18px 0;
+    }
+    .otp div {
+      height: 52px;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      font-weight: 600;
+      background: var(--panel);
+    }
+
+    .role-card {
+      border: 1px solid var(--line-strong);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      background: var(--panel);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .role-card.on {
+      border-color: rgba(61,214,195,0.45);
+      background: linear-gradient(135deg, var(--gel-dim), var(--panel));
+    }
+    .role-card h4 {
+      margin: 0 0 4px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .role-card p { margin: 0; font-size: 12px; color: var(--mute); line-height: 1.4; }
+    .role-card .mini {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 22px;
+      color: var(--gel);
+      margin-bottom: 6px;
+    }
+
+    /* Lookbook talent cards */
+    .look {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      height: 168px;
+      cursor: pointer;
+      border: 1px solid var(--line);
+    }
+    .look .bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: saturate(0.85) contrast(1.05);
+      transform: scale(1.02);
+    }
+    .look .veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0.35) 100%);
+    }
+    .look .meta-l {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 12px;
+    }
+    .look h4 { margin: 0 0 3px; font-size: 16px; font-weight: 600; }
+    .look p { margin: 0; font-size: 11px; color: #cfcbc2; }
+    .look .top {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pill {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+    }
+    .pill.gel { color: var(--gel); border-color: rgba(61,214,195,0.3); }
+    .pill.amber { color: var(--amber); }
+
+    .callsheet {
+      border-radius: 16px;
+      border: 1px solid var(--line-strong);
+      background: var(--panel);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .callsheet .stripe {
+      height: 4px;
+      background: linear-gradient(90deg, var(--gel), var(--amber));
+    }
+    .callsheet .pad { padding: 14px; }
+    .callsheet .code {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gel);
+      margin-bottom: 6px;
+    }
+    .callsheet h4 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 22px;
+      font-weight: 400;
+      margin: 0 0 8px;
+    }
+    .callsheet .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--mute);
+    }
+    .callsheet .grid2 strong {
+      display: block;
+      color: var(--bone);
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .stat b {
+      display: block;
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--gel);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat span { font-size: 11px; color: var(--mute); }
+
+    .queue-item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border-radius: 14px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      margin-bottom: 8px;
+    }
+    .queue-item .rank {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--gel-dim);
+      color: var(--gel);
+      font-size: 12px;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+    }
+    .queue-item .thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .countdown {
+      text-align: center;
+      padding: 20px 12px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(61,214,195,0.15), transparent 60%),
+        var(--panel);
+      border: 1px solid var(--line-strong);
+      margin-bottom: 14px;
+    }
+    .countdown .clock {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 40px;
+      letter-spacing: -0.02em;
+      margin: 8px 0 4px;
+    }
+
+    .cal {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-top: 10px;
+    }
+    .cal .head {
+      font-size: 9px;
+      text-align: center;
+      color: var(--mute);
+      padding-bottom: 2px;
+      letter-spacing: 0.04em;
+    }
+    .cal .d {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      font-size: 11px;
+      display: grid;
+      place-items: center;
+      background: var(--panel);
+      border: 1px solid transparent;
+      color: #bbb;
+    }
+    .cal .d.avail {
+      background: rgba(61,214,195,0.12);
+      border-color: rgba(61,214,195,0.25);
+      color: var(--gel);
+      font-weight: 600;
+    }
+    .cal .d.busy {
+      background: rgba(224,122,95,0.12);
+      border-color: rgba(224,122,95,0.25);
+      color: var(--danger);
+    }
+    .cal .d.muted { opacity: 0.35; }
+    .cal .d.sel {
+      box-shadow: 0 0 0 2px var(--gel);
+    }
+    .legend {
+      display: flex;
+      gap: 14px;
+      font-size: 11px;
+      color: var(--mute);
+      margin-top: 10px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    .msg {
+      max-width: 78%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .msg.in {
+      background: var(--panel);
+      border: 1px solid var(--line);
+    }
+    .msg.out {
+      background: var(--gel-dim);
+      border: 1px solid rgba(61,214,195,0.25);
+      color: var(--bone);
+      margin-left: auto;
+    }
+    .composer {
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--line);
+      padding: 10px 12px 14px;
+      background: rgba(10,10,12,0.95);
+    }
+    .composer .field { flex: 1; margin: 0; }
+
+    .stars {
+      text-align: center;
+      font-size: 22px;
+      letter-spacing: 6px;
+      color: var(--amber);
+      margin: 10px 0 14px;
+    }
+    .hint {
+      font-size: 11px;
+      color: var(--mute);
+      border-top: 1px solid var(--line);
+      margin-top: 14px;
+      padding-top: 12px;
+      line-height: 1.45;
+    }
+    .filmstrip {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin: 8px 0 12px;
+    }
+    .filmstrip .f {
+      width: 72px;
+      height: 88px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--line);
+    }
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      border: 1px solid var(--line-strong);
+    }
+    .avatar.lg { width: 76px; height: 76px; border-radius: 18px; }
+
+    /* Regional language support */
+    .phone[data-lang="te"] .screen,
+    .phone[data-lang="te"] .screen button,
+    .phone[data-lang="te"] .screen .field,
+    .phone[data-lang="te"] .screen .chip {
+      font-family: "Noto Sans Telugu", "Sora", sans-serif;
+    }
+    .phone[data-lang="hi"] .screen,
+    .phone[data-lang="hi"] .screen button,
+    .phone[data-lang="hi"] .screen .field,
+    .phone[data-lang="hi"] .screen .chip {
+      font-family: "Noto Sans Devanagari", "Sora", sans-serif;
+    }
+    .phone[data-lang="te"] .serif,
+    .phone[data-lang="te"] .title-xl,
+    .phone[data-lang="te"] .callsheet h4,
+    .phone[data-lang="te"] .countdown .clock,
+    .phone[data-lang="te"] .stat b,
+    .phone[data-lang="te"] .role-card .mini {
+      font-family: "Noto Sans Telugu", sans-serif !important;
+      font-weight: 600;
+    }
+    .phone[data-lang="hi"] .serif,
+    .phone[data-lang="hi"] .title-xl,
+    .phone[data-lang="hi"] .callsheet h4,
+    .phone[data-lang="hi"] .countdown .clock,
+    .phone[data-lang="hi"] .stat b,
+    .phone[data-lang="hi"] .role-card .mini {
+      font-family: "Noto Sans Devanagari", sans-serif !important;
+      font-weight: 600;
+    }
+    .lang-pill {
+      position: absolute;
+      top: 48px;
+      right: 22px;
+      z-index: 9;
+      font-size: 10px;
+      padding: 5px 9px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.65);
+      border: 1px solid rgba(61,214,195,0.35);
+      color: var(--gel);
+      cursor: pointer;
+      font-family: "Sora", sans-serif;
+      letter-spacing: 0.04em;
+    }
+    .lang-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line-strong);
+      background: var(--panel);
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .lang-card.on {
+      border-color: rgba(61,214,195,0.45);
+      background: linear-gradient(135deg, var(--gel-dim), var(--panel));
+    }
+    .lang-card .glyph {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--lift);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gel);
+      flex-shrink: 0;
+    }
+    .lang-card .glyph.te { font-family: "Noto Sans Telugu", sans-serif; }
+    .lang-card .glyph.hi { font-family: "Noto Sans Devanagari", sans-serif; }
+    .lang-card h4 { margin: 0 0 3px; font-size: 15px; }
+    .lang-card p { margin: 0; font-size: 11px; color: var(--mute); line-height: 1.35; }
+    .lang-card .check {
+      margin-left: auto;
+      color: var(--gel);
+      font-size: 16px;
+      opacity: 0;
+    }
+    .lang-card.on .check { opacity: 1; }
+    .list-card {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      margin-bottom: 10px;
+      cursor: pointer;
+      align-items: flex-start;
+    }
+    .list-card h4 { margin: 0 0 4px; font-size: 14px; }
+    .list-card p { margin: 0; font-size: 11px; color: var(--mute); line-height: 1.4; }
+
+    /* Unsplash-ish creative placeholders via CSS gradients as "photos" */
+    .p1 { background-image: linear-gradient(145deg, #2a2438, #6b4f4f 40%, #c4a484); }
+    .p2 { background-image: linear-gradient(160deg, #1b3a4b, #3d7ea6 45%, #e8d5b7); }
+    .p3 { background-image: linear-gradient(135deg, #1f2933, #4b5563 50%, #f5e6c8); }
+    .p4 { background-image: linear-gradient(150deg, #2d1f1a, #8b4513 40%, #f0c987); }
+    .p5 { background-image: linear-gradient(140deg, #0f2027, #203a43 40%, #2c5364); }
+
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { max-height: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">Frame <span>With Me</span></div>
+      <p class="tag">Cinema-set wireframes · EN / తెలుగు / हिन्दी. Portfolio-first hiring. Call-sheet jobs. Shoot calendar.</p>
+
+      <div class="nav-group">
+        <h2>Auth</h2>
+        <button class="active" data-go="welcome">Welcome</button>
+        <button data-go="language">Language (EN/TE/HI)</button>
+        <button data-go="register">Register</button>
+        <button data-go="otp">OTP</button>
+        <button data-go="role">Choose role</button>
+        <button data-go="login">Login</button>
+        <button data-go="settings-lang">Settings · language</button>
+      </div>
+      <div class="nav-group">
+        <h2>Studio</h2>
+        <button data-go="studio-home">Studio home</button>
+        <button data-go="hire-job">Create job / call sheet</button>
+        <button data-go="search">Lookbook search</button>
+        <button data-go="talent-detail">Talent profile</button>
+        <button data-go="queue">Crew queue</button>
+        <button data-go="offer-type">Offer type</button>
+        <button data-go="offering">Live offering</button>
+        <button data-go="deposit">Deposit</button>
+        <button data-go="studio-jobs">Jobs</button>
+        <button data-go="studio-chat">Chat</button>
+        <button data-go="studio-review">Review</button>
+        <button data-go="favorites">Roster</button>
+      </div>
+      <div class="nav-group">
+        <h2>Freelancer</h2>
+        <button data-go="talent-home">Freelancer home</button>
+        <button data-go="calendar">Shoot calendar</button>
+        <button data-go="offer-inbox">Offer card</button>
+        <button data-go="talent-jobs">Bookings</button>
+        <button data-go="talent-profile">Profile</button>
+        <button data-go="talent-chat">Chat</button>
+        <button data-go="talent-review">Review studio</button>
+      </div>
+    </aside>
+
+    <main>
+      <div class="meta">
+        <div class="kicker" id="screenKicker">Auth</div>
+        <h2 id="screenTitle">Welcome</h2>
+        <p id="screenDesc">Brand-first entry — feels like opening a camera app, not a form.</p>
+      </div>
+
+      <div class="phone" id="phone" data-lang="en">
+        <div class="phone-notch"></div>
+        <button type="button" class="lang-pill" data-go="settings-lang" id="langPill" title="Change language">EN</button>
+
+        <!-- WELCOME -->
+        <section class="screen active" id="welcome" data-kicker="Auth" data-title="Welcome" data-desc="Brand first — then pick Telugu / Hindi / English before signup.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="body center" style="display:flex;flex-direction:column;justify-content:center;min-height:90%;">
+            <div class="hero-mark"><span class="cross"></span><span class="cross h"></span></div>
+            <div class="title-xl" data-i18n="welcome.title">Frame<br/>With Me</div>
+            <p class="sub" data-i18n="welcome.sub">The set board for Indian wedding crews.<br/>Studios hire. Freelancers get booked.</p>
+            <button class="btn gel" data-go="language" data-i18n="welcome.cta">Start shooting</button>
+            <button class="btn secondary" data-go="login" data-i18n="welcome.login">I have an account</button>
+          </div>
+        </section>
+
+        <!-- LANGUAGE (first-run) -->
+        <section class="screen" id="language" data-kicker="Auth" data-title="Choose language" data-desc="P0: English + Telugu + Hindi. Device default + manual pick. Fonts switch to Noto for te/hi.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="welcome">‹</button>
+            <h3 class="serif" data-i18n="lang.title">App language</h3>
+          </div>
+          <div class="body">
+            <p class="sub" data-i18n="lang.sub">Hyd crews in Telugu. North-ready Hindi. English anytime. You can change this later in Settings.</p>
+
+            <div class="lang-card on" data-set-lang="en">
+              <div class="glyph">A</div>
+              <div>
+                <h4>English</h4>
+                <p>Default · industry terms stay clear</p>
+              </div>
+              <div class="check">✓</div>
+            </div>
+            <div class="lang-card" data-set-lang="te">
+              <div class="glyph te">ఆ</div>
+              <div>
+                <h4>తెలుగు · Telugu</h4>
+                <p>Hyderabad & Andhra / Telangana crews</p>
+              </div>
+              <div class="check">✓</div>
+            </div>
+            <div class="lang-card" data-set-lang="hi">
+              <div class="glyph hi">अ</div>
+              <div>
+                <h4>हिन्दी · Hindi</h4>
+                <p>North India · many Hyd freelancers too</p>
+              </div>
+              <div class="check">✓</div>
+            </div>
+
+            <button class="btn gel" data-go="register" data-i18n="lang.continue">Continue</button>
+            <p class="hint" data-i18n="lang.hint">Job notes & chat stay in whatever language you type — only the app chrome is translated.</p>
+          </div>
+        </section>
+
+        <!-- SETTINGS LANGUAGE -->
+        <section class="screen" id="settings-lang" data-kicker="Settings" data-title="Settings · language" data-desc="Change locale anytime. Persist on profile. Live preview in this wireframe.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="studio-home">‹</button>
+            <h3 class="serif" data-i18n="lang.settingsTitle">Language</h3>
+          </div>
+          <div class="body">
+            <p class="sub" data-i18n="lang.settingsSub">Tap a language — the whole app UI updates instantly.</p>
+            <div class="lang-card on" data-set-lang="en">
+              <div class="glyph">A</div>
+              <div><h4>English</h4><p>EN</p></div>
+              <div class="check">✓</div>
+            </div>
+            <div class="lang-card" data-set-lang="te">
+              <div class="glyph te">ఆ</div>
+              <div><h4>తెలుగు</h4><p>TE</p></div>
+              <div class="check">✓</div>
+            </div>
+            <div class="lang-card" data-set-lang="hi">
+              <div class="glyph hi">अ</div>
+              <div><h4>हिन्दी</h4><p>HI</p></div>
+              <div class="check">✓</div>
+            </div>
+            <button class="btn gel" data-go="studio-home" data-i18n="lang.done">Done</button>
+            <button class="btn secondary" data-go="talent-home" data-i18n="lang.seeFreelancer">Preview freelancer home</button>
+          </div>
+        </section>
+
+        <!-- REGISTER -->
+        <section class="screen" id="register" data-kicker="Auth" data-title="Register" data-desc="Minimal signup — phone first, city for Hyd liquidity. UI follows chosen language.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="language">‹</button>
+            <h3 class="serif" data-i18n="register.title">Join the set</h3>
+          </div>
+          <div class="body">
+            <p class="sub" data-i18n="register.sub">One number. Hyderabad first. No long forms.</p>
+            <div class="label" data-i18n="register.name">Name</div>
+            <div class="field filled">Priya Sharma</div>
+            <div class="label" data-i18n="register.mobile">Mobile</div>
+            <div class="field filled">+91 98765 43210</div>
+            <div class="label" data-i18n="register.city">Home city</div>
+            <div class="field filled">Hyderabad</div>
+            <button class="btn gel" data-go="otp" data-i18n="register.otp">Send OTP</button>
+          </div>
+        </section>
+
+        <!-- OTP -->
+        <section class="screen" id="otp" data-kicker="Auth" data-title="OTP" data-desc="Quick verify — get them to role choice fast.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="register">‹</button>
+            <h3 data-i18n="otp.title">Verify</h3>
+          </div>
+          <div class="body center">
+            <p class="sub" data-i18n="otp.sub">Code to +91 98765 43210</p>
+            <div class="otp"><div>4</div><div>8</div><div>2</div><div>1</div></div>
+            <button class="btn gel" data-go="role" data-i18n="otp.cta">Enter the frame</button>
+            <button class="btn ghost" data-i18n="otp.resend">Resend in 0:28</button>
+          </div>
+        </section>
+
+        <!-- ROLE -->
+        <section class="screen" id="role" data-kicker="Auth" data-title="Choose role" data-desc="Identity moment — studio vs freelancer. Labels follow EN/TE/HI.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header"><h3 class="serif" data-i18n="role.title">Who are you today?</h3></div>
+          <div class="body">
+            <div class="role-card on" data-go="studio-home">
+              <div class="mini" data-i18n="role.studioMini">Studio</div>
+              <h4 data-i18n="role.studioTitle">I hire crew</h4>
+              <p data-i18n="role.studioSub">Build call sheets. Queue seconds, cine, drone. Fill Saturdays.</p>
+            </div>
+            <div class="role-card" data-go="talent-home">
+              <div class="mini" data-i18n="role.talentMini">Freelancer</div>
+              <h4 data-i18n="role.talentTitle">I get booked</h4>
+              <p data-i18n="role.talentSub">Open your calendar. Get offers. Climb assistant → lead.</p>
+            </div>
+            <div class="role-card" data-go="studio-home">
+              <div class="mini" data-i18n="role.bothMini">Both</div>
+              <h4 data-i18n="role.bothTitle">I do both</h4>
+              <p data-i18n="role.bothSub">Run your brand and second-shoot for others.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- LOGIN -->
+        <section class="screen" id="login" data-kicker="Auth" data-title="Login" data-desc="Returning creatives — OTP only. Language already saved on profile.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="welcome">‹</button>
+            <h3 class="serif" data-i18n="login.title">Welcome back</h3>
+          </div>
+          <div class="body">
+            <div class="label" data-i18n="register.mobile">Mobile</div>
+            <div class="field filled">+91 98765 43210</div>
+            <button class="btn gel" data-go="otp" data-i18n="register.otp">Send OTP</button>
+            <button class="btn ghost" data-go="language" data-i18n="login.changeLang">Change language</button>
+          </div>
+        </section>
+
+        <!-- STUDIO HOME -->
+        <section class="screen" id="studio-home" data-kicker="Studio" data-title="Studio home" data-desc="Set dashboard — UI strings switch with language. Tap EN pill to change.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <h3 class="serif">LensArt</h3>
+            <button class="icon-btn" data-go="settings-lang">···</button>
+          </div>
+          <div class="body">
+            <p class="sub" style="margin-top:0;" data-i18n="studio.homeSub">Hyderabad · peak Saturday in 5 days</p>
+            <div class="stat-row">
+              <div class="stat"><b>2</b><span data-i18n="studio.rolesOpen">roles open</span></div>
+              <div class="stat"><b>12</b><span data-i18n="studio.rosterCount">on your roster</span></div>
+            </div>
+            <button class="btn gel" data-go="hire-job" data-i18n="studio.newCall">New call sheet</button>
+            <div class="label" data-i18n="studio.liveBoard">Live on set board</div>
+            <div class="callsheet" data-go="offering" style="cursor:pointer;">
+              <div class="stripe"></div>
+              <div class="pad">
+                <div class="code">Offering · ranked #1</div>
+                <h4>Reddy Wedding</h4>
+                <div class="grid2">
+                  <div>Role<strong>Second shooter</strong></div>
+                  <div>When<strong>Sat 25 Oct</strong></div>
+                </div>
+              </div>
+            </div>
+            <div class="label" data-i18n="studio.lockedIn">Locked in</div>
+            <div class="list-card" data-go="studio-jobs">
+              <div class="avatar p5"></div>
+              <div>
+                <h4>Mehta Sangeet · Cine</h4>
+                <p data-i18n="studio.depositPaid">Arjun K · deposit paid · Fri call 5pm</p>
+              </div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <button class="on" data-go="studio-home"><span class="ico">◆</span><span data-i18n="tab.board">Board</span></button>
+            <button data-go="studio-jobs"><span class="ico">☰</span><span data-i18n="tab.jobs">Jobs</span></button>
+            <button data-go="favorites"><span class="ico">☆</span><span data-i18n="tab.roster">Roster</span></button>
+            <button data-go="search"><span class="ico">▣</span><span data-i18n="tab.look">Look</span></button>
+          </div>
+        </section>
+
+        <!-- HIRE / CALL SHEET -->
+        <section class="screen" id="hire-job" data-kicker="Studio" data-title="Call sheet" data-desc="Job creation as call sheet — chrome in TE/HI; notes stay free-text.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="studio-home">‹</button>
+            <h3 class="serif" data-i18n="hire.title">Call sheet</h3>
+          </div>
+          <div class="body">
+            <div class="label" data-i18n="hire.production">Production</div>
+            <div class="field filled">Reddy Wedding</div>
+            <div class="label" data-i18n="hire.role">Crew role</div>
+            <div class="chip-row">
+              <span class="chip" data-i18n="role.assistant">Assistant</span>
+              <span class="chip on">Second</span>
+              <span class="chip" data-i18n="role.lead">Lead</span>
+              <span class="chip">Cine</span>
+              <span class="chip">Drone</span>
+            </div>
+            <div class="label" data-i18n="hire.functions">Functions</div>
+            <div class="callsheet">
+              <div class="stripe"></div>
+              <div class="pad" style="font-size:12px;line-height:1.7;">
+                <div>✓ Haldi · Fri 24 · 09:00</div>
+                <div>✓ Wedding · Sat 25 · 07:00</div>
+                <div style="color:var(--mute);">+ Add reception</div>
+              </div>
+            </div>
+            <div class="label" data-i18n="hire.location">Location</div>
+            <div class="field filled">Gachibowli farmhouse</div>
+            <div class="row">
+              <div class="field filled">₹8,000 / day</div>
+              <div class="field filled">Telugu</div>
+            </div>
+            <div class="label" data-i18n="hire.notes">Creative notes</div>
+            <div class="field">70-200 · black kit · soft candids</div>
+            <button class="btn gel" data-go="search" data-i18n="hire.lookbook">Open lookbook →</button>
+          </div>
+        </section>
+
+        <!-- LOOKBOOK SEARCH -->
+        <section class="screen" id="search" data-kicker="Studio" data-title="Lookbook" data-desc="Hire by work, not by list rows — full-bleed portfolio cards creatives respect.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="hire-job">‹</button>
+            <h3 class="serif">Lookbook</h3>
+          </div>
+          <div class="body">
+            <div class="chip-row">
+              <span class="chip on">Sat free</span>
+              <span class="chip on">≤ ₹8k</span>
+              <span class="chip">70-200</span>
+              <span class="chip">★4+</span>
+            </div>
+            <div class="look" data-go="talent-detail">
+              <div class="bg p1"></div>
+              <div class="veil"></div>
+              <div class="top">
+                <span class="pill gel">Available</span>
+                <span class="pill">4.8★</span>
+              </div>
+              <div class="meta-l">
+                <h4>Ravi Kumar</h4>
+                <p>Second · ₹7,500 · 3 km · R6 + 70-200</p>
+              </div>
+            </div>
+            <div class="look" data-go="talent-detail">
+              <div class="bg p2"></div>
+              <div class="veil"></div>
+              <div class="top">
+                <span class="pill gel">Available</span>
+                <span class="pill">4.6★</span>
+              </div>
+              <div class="meta-l">
+                <h4>Sneha Nair</h4>
+                <p>Second · ₹8,000 · 6 km · A7IV</p>
+              </div>
+            </div>
+            <div class="look" data-go="talent-detail">
+              <div class="bg p3"></div>
+              <div class="veil"></div>
+              <div class="top">
+                <span class="pill amber">On roster</span>
+                <span class="pill">4.2★</span>
+              </div>
+              <div class="meta-l">
+                <h4>Anil Mehta</h4>
+                <p>Second · ₹6,500 · 8 km</p>
+              </div>
+            </div>
+            <button class="btn" data-go="queue">Queue selected (3)</button>
+          </div>
+        </section>
+
+        <!-- TALENT DETAIL -->
+        <section class="screen" id="talent-detail" data-kicker="Studio" data-title="Talent" data-desc="Portfolio strip first — then rates, gear, reviews.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="search">‹</button>
+            <h3>Ravi Kumar</h3>
+            <button class="icon-btn">☆</button>
+          </div>
+          <div class="body">
+            <div style="display:flex;gap:12px;align-items:center;">
+              <div class="avatar lg p1"></div>
+              <div>
+                <div style="font-family:Instrument Serif,serif;font-size:22px;">Second shooter</div>
+                <div style="font-size:12px;color:var(--mute);">Hyd · 4.8★ · 32 jobs</div>
+              </div>
+            </div>
+            <div class="filmstrip">
+              <div class="f p1"></div>
+              <div class="f p4"></div>
+              <div class="f p2"></div>
+              <div class="f p5"></div>
+            </div>
+            <div class="stat-row">
+              <div class="stat"><b>₹7.5k</b><span>day rate</span></div>
+              <div class="stat"><b>25km</b><span>radius</span></div>
+            </div>
+            <div class="chip-row">
+              <span class="chip on">R6</span>
+              <span class="chip on">70-200</span>
+              <span class="chip">Godox</span>
+              <span class="chip">Telugu</span>
+            </div>
+            <div class="label">From a studio</div>
+            <div class="field filled" style="font-style:italic;font-family:Instrument Serif,serif;font-size:15px;color:var(--bone);">
+              “Punctual. Invisible when he should be. Killer candids.”
+            </div>
+            <button class="btn gel" data-go="queue">Add to crew queue</button>
+          </div>
+        </section>
+
+        <!-- QUEUE -->
+        <section class="screen" id="queue" data-kicker="Studio" data-title="Crew queue" data-desc="Priority order — your trusted bench before open market.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="search">‹</button>
+            <h3 class="serif">Crew queue</h3>
+          </div>
+          <div class="body">
+            <p class="sub">#1 gets the offer first. Reorder like a shot list.</p>
+            <div class="queue-item">
+              <div class="rank">1</div>
+              <div class="thumb p1"></div>
+              <div style="flex:1;font-size:13px;"><strong>Ravi Kumar</strong><br><span style="color:var(--mute);font-size:11px;">₹7,500 · 4.8★</span></div>
+            </div>
+            <div class="queue-item">
+              <div class="rank">2</div>
+              <div class="thumb p2"></div>
+              <div style="flex:1;font-size:13px;"><strong>Sneha Nair</strong><br><span style="color:var(--mute);font-size:11px;">₹8,000 · 4.6★</span></div>
+            </div>
+            <div class="queue-item">
+              <div class="rank">3</div>
+              <div class="thumb p3"></div>
+              <div style="flex:1;font-size:13px;"><strong>Anil Mehta</strong><br><span style="color:var(--mute);font-size:11px;">₹6,500 · roster</span></div>
+            </div>
+            <button class="btn gel" data-go="offer-type">How should we offer?</button>
+          </div>
+        </section>
+
+        <!-- OFFER TYPE -->
+        <section class="screen" id="offer-type" data-kicker="Studio" data-title="Offer style" data-desc="Ranked for quality, Instant for panic Saturdays — not Uber broadcast.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="queue">‹</button>
+            <h3 class="serif">Offer style</h3>
+          </div>
+          <div class="body">
+            <div class="role-card on">
+              <div class="mini">Ranked</div>
+              <h4>One at a time</h4>
+              <p>Respect your shortlist. Auto-advance on decline or timeout.</p>
+            </div>
+            <div class="role-card">
+              <div class="mini">Instant</div>
+              <h4>First accept wins</h4>
+              <p>When someone drops last-minute — still only your queue.</p>
+            </div>
+            <div class="label">Respond within</div>
+            <div class="chip-row">
+              <span class="chip">15m</span>
+              <span class="chip on">1h</span>
+              <span class="chip">4h</span>
+              <span class="chip">24h</span>
+            </div>
+            <button class="btn gel" data-go="offering">Roll camera — start offer</button>
+          </div>
+        </section>
+
+        <!-- OFFERING -->
+        <section class="screen" id="offering" data-kicker="Studio" data-title="Live offering" data-desc="Tension + countdown — makes hiring feel alive.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="studio-home">‹</button>
+            <h3>On offer</h3>
+          </div>
+          <div class="body">
+            <div class="countdown">
+              <div class="label" style="margin-top:0;">Waiting on #1 · Ravi</div>
+              <div class="clock">0:47:12</div>
+              <div style="font-size:12px;color:var(--mute);">Then auto-offers Sneha</div>
+            </div>
+            <div class="queue-item"><div class="rank">1</div><div class="thumb p1"></div><div>Ravi · offered</div></div>
+            <div class="queue-item" style="opacity:0.45;"><div class="rank">2</div><div class="thumb p2"></div><div>Sneha · next</div></div>
+            <button class="btn" data-go="deposit">Simulate accept →</button>
+            <button class="btn ghost">Pull the plug</button>
+          </div>
+        </section>
+
+        <!-- DEPOSIT -->
+        <section class="screen" id="deposit" data-kicker="Studio" data-title="Lock the hire" data-desc="UPI deposit framed as locking the seat — trust without feeling like banking.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="offering">‹</button>
+            <h3 class="serif">Lock seat</h3>
+          </div>
+          <div class="body">
+            <div class="callsheet">
+              <div class="stripe"></div>
+              <div class="pad">
+                <div class="code">Ravi accepted</div>
+                <h4>₹3,750 deposit</h4>
+                <div class="grid2">
+                  <div>Rate<strong>₹7,500 × 2 days</strong></div>
+                  <div>Lock<strong>25% UPI</strong></div>
+                </div>
+              </div>
+            </div>
+            <div class="chip-row">
+              <span class="chip on">UPI</span>
+              <span class="chip">Card</span>
+            </div>
+            <button class="btn gel" data-go="studio-jobs">Pay & confirm crew</button>
+            <p class="hint">His calendar marks busy. Your roster remembers him.</p>
+          </div>
+        </section>
+
+        <!-- STUDIO JOBS -->
+        <section class="screen" id="studio-jobs" data-kicker="Studio" data-title="Jobs" data-desc="Upcoming productions as call sheets.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header"><h3 class="serif">Productions</h3></div>
+          <div class="body">
+            <div class="chip-row">
+              <span class="chip on">Upcoming</span>
+              <span class="chip">Wrapped</span>
+            </div>
+            <div class="callsheet" data-go="studio-chat" style="cursor:pointer;">
+              <div class="stripe"></div>
+              <div class="pad">
+                <div class="code">Confirmed</div>
+                <h4>Reddy Wedding</h4>
+                <div class="grid2">
+                  <div>Crew<strong>Ravi · Second</strong></div>
+                  <div>Sat<strong>25 Oct</strong></div>
+                </div>
+              </div>
+            </div>
+            <div class="list-card" data-go="studio-review">
+              <div class="avatar p5"></div>
+              <div>
+                <h4>Mehta Sangeet</h4>
+                <p style="color:var(--amber);">Wrapped — leave a review</p>
+              </div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <button data-go="studio-home"><span class="ico">◆</span>Board</button>
+            <button class="on" data-go="studio-jobs"><span class="ico">☰</span>Jobs</button>
+            <button data-go="favorites"><span class="ico">☆</span>Roster</button>
+            <button data-go="search"><span class="ico">▣</span>Look</button>
+          </div>
+        </section>
+
+        <!-- STUDIO CHAT -->
+        <section class="screen" id="studio-chat" data-kicker="Studio" data-title="Chat" data-desc="Job thread — production notes, not WhatsApp chaos.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="studio-jobs">‹</button>
+            <h3>Ravi · Reddy</h3>
+          </div>
+          <div class="body">
+            <div class="msg in">Confirmed both days. Call 6:30 at Gate 2?</div>
+            <div class="msg out">Yes — black kit, soft candids for baraat.</div>
+            <div class="msg in">Copy. Bringing 70-200.</div>
+          </div>
+          <div class="composer">
+            <div class="field">Note to crew…</div>
+            <button class="btn sm gel">Send</button>
+          </div>
+        </section>
+
+        <!-- STUDIO REVIEW -->
+        <section class="screen" id="studio-review" data-kicker="Studio" data-title="Review" data-desc="Quick tags creatives use — punctual, kit, eye.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="studio-jobs">‹</button>
+            <h3 class="serif">How was Ravi?</h3>
+          </div>
+          <div class="body">
+            <div class="stars">★★★★☆</div>
+            <div class="chip-row">
+              <span class="chip on">Punctual</span>
+              <span class="chip on">Kit ready</span>
+              <span class="chip on">Great eye</span>
+              <span class="chip">Calm</span>
+            </div>
+            <div class="field" style="min-height:72px;font-family:Instrument Serif,serif;font-size:15px;color:var(--bone);font-style:italic;">
+              Invisible when he should be…
+            </div>
+            <button class="btn gel" data-go="studio-home">Publish review</button>
+          </div>
+        </section>
+
+        <!-- ROSTER / FAVORITES -->
+        <section class="screen" id="favorites" data-kicker="Studio" data-title="Roster" data-desc="Favorites renamed Roster — your trusted bench.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header"><h3 class="serif">Roster</h3></div>
+          <div class="body">
+            <p class="sub">People you’d call at 11pm. Offer them first.</p>
+            <div class="look" data-go="talent-detail" style="height:120px;">
+              <div class="bg p1"></div><div class="veil"></div>
+              <div class="meta-l"><h4>Ravi Kumar</h4><p>Second · booked 4× with you</p></div>
+            </div>
+            <div class="look" style="height:120px;">
+              <div class="bg p5"></div><div class="veil"></div>
+              <div class="meta-l"><h4>Pooja V</h4><p>Cine · booked 2×</p></div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <button data-go="studio-home"><span class="ico">◆</span>Board</button>
+            <button data-go="studio-jobs"><span class="ico">☰</span>Jobs</button>
+            <button class="on" data-go="favorites"><span class="ico">☆</span>Roster</button>
+            <button data-go="search"><span class="ico">▣</span>Look</button>
+          </div>
+        </section>
+
+        <!-- TALENT HOME -->
+        <section class="screen" id="talent-home" data-kicker="Freelancer" data-title="Freelancer home" data-desc="Freelancer UI in TE/HI — change via language pill.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <h3 class="serif">Ravi</h3>
+            <button class="icon-btn" data-go="settings-lang">◎</button>
+          </div>
+          <div class="body">
+            <div class="stat-row">
+              <div class="stat"><b>3</b><span data-i18n="talent.daysOpen">days open</span></div>
+              <div class="stat"><b>4.8</b><span data-i18n="talent.rating">rating</span></div>
+            </div>
+            <button class="btn secondary" data-go="calendar" data-i18n="talent.editCal">Shape this week’s calendar</button>
+            <div class="label" data-i18n="talent.hotOffer">Hot offer</div>
+            <div class="countdown" data-go="offer-inbox" style="cursor:pointer;text-align:left;padding:14px;">
+              <div class="code" style="color:var(--amber);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;">LensArt · Second</div>
+              <div style="font-family:Instrument Serif,serif;font-size:28px;margin:4px 0;">₹8,000<span style="font-size:14px;color:var(--mute);"> / day</span></div>
+              <div style="font-size:12px;color:var(--mute);">Sat wedding · 52 min left to answer</div>
+            </div>
+            <div class="label" data-i18n="talent.locked">Locked</div>
+            <div class="list-card" data-go="talent-jobs">
+              <div class="avatar p4"></div>
+              <div>
+                <h4>Kapoor Haldi</h4>
+                <p data-i18n="talent.haldiMeta">Assistant · Thu · deposit in</p>
+              </div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <button class="on" data-go="talent-home"><span class="ico">◆</span><span data-i18n="tab.home">Home</span></button>
+            <button data-go="calendar"><span class="ico">▦</span><span data-i18n="tab.days">Days</span></button>
+            <button data-go="talent-jobs"><span class="ico">☰</span><span data-i18n="tab.booked">Booked</span></button>
+            <button data-go="talent-profile"><span class="ico">◎</span><span data-i18n="tab.you">You</span></button>
+          </div>
+        </section>
+
+        <!-- CALENDAR -->
+        <section class="screen" id="calendar" data-kicker="Freelancer" data-title="Shoot calendar" data-desc="Availability calendar — Open/Busy labels translate.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="talent-home">‹</button>
+            <h3 class="serif" data-i18n="cal.month">October</h3>
+          </div>
+          <div class="body">
+            <p class="sub" data-i18n="cal.sub">Open days get offers. Busy days stay quiet.</p>
+            <div class="cal">
+              <div class="head">S</div><div class="head">M</div><div class="head">T</div><div class="head">W</div><div class="head">T</div><div class="head">F</div><div class="head">S</div>
+              <div class="d muted">28</div><div class="d muted">29</div><div class="d muted">30</div><div class="d avail">1</div><div class="d avail">2</div><div class="d avail">3</div><div class="d busy">4</div>
+              <div class="d avail">5</div><div class="d avail">6</div><div class="d avail">7</div><div class="d avail">8</div><div class="d avail">9</div><div class="d busy">10</div><div class="d busy">11</div>
+              <div class="d avail">12</div><div class="d avail">13</div><div class="d avail">14</div><div class="d avail">15</div><div class="d avail">16</div><div class="d avail">17</div><div class="d busy">18</div>
+              <div class="d avail">19</div><div class="d avail">20</div><div class="d avail">21</div><div class="d avail">22</div><div class="d avail">23</div><div class="d busy">24</div><div class="d avail sel">25</div>
+              <div class="d avail">26</div><div class="d avail">27</div><div class="d avail">28</div><div class="d avail">29</div><div class="d avail">30</div><div class="d avail">31</div><div class="d muted">1</div>
+            </div>
+            <div class="legend">
+              <span><span class="dot" style="background:var(--gel);"></span><span data-i18n="cal.open">Open</span></span>
+              <span><span class="dot" style="background:var(--danger);"></span><span data-i18n="cal.busy">Busy</span></span>
+            </div>
+            <div class="callsheet" style="margin-top:14px;">
+              <div class="stripe"></div>
+              <div class="pad">
+                <div class="code" data-i18n="cal.selected">Selected · Sat 25</div>
+                <h4 style="font-size:20px;" data-i18n="cal.openOffers">Open for offers</h4>
+                <div style="font-size:12px;color:var(--mute);" data-i18n="cal.radiusHint">Studios in 25 km can find you</div>
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+              <button class="btn secondary sm" style="flex:1;" data-i18n="cal.markBusy">Mark busy</button>
+              <button class="btn gel sm" style="flex:1;" data-i18n="cal.keepOpen">Keep open</button>
+            </div>
+          </div>
+          <div class="tabbar">
+            <button data-go="talent-home"><span class="ico">◆</span><span data-i18n="tab.home">Home</span></button>
+            <button class="on" data-go="calendar"><span class="ico">▦</span><span data-i18n="tab.days">Days</span></button>
+            <button data-go="talent-jobs"><span class="ico">☰</span><span data-i18n="tab.booked">Booked</span></button>
+            <button data-go="talent-profile"><span class="ico">◎</span><span data-i18n="tab.you">You</span></button>
+          </div>
+        </section>
+
+        <!-- OFFER INBOX -->
+        <section class="screen" id="offer-inbox" data-kicker="Freelancer" data-title="Offer" data-desc="Offer card — Accept/Pass in Telugu or Hindi.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="talent-home">‹</button>
+            <h3 data-i18n="offer.title">Offer</h3>
+          </div>
+          <div class="body">
+            <div class="countdown">
+              <div class="label" style="margin:0;" data-i18n="offer.respondIn">Respond in</div>
+              <div class="clock">0:52:08</div>
+              <div style="font-family:Instrument Serif,serif;font-size:36px;margin-top:8px;">₹8,000</div>
+              <div style="font-size:12px;color:var(--mute);" data-i18n="offer.rateMeta">per day · Second · 2 days</div>
+            </div>
+            <div class="label" data-i18n="offer.studio">Studio</div>
+            <div class="field filled">LensArt Studio · 4.9★</div>
+            <div class="label" data-i18n="hire.title">Call sheet</div>
+            <div class="callsheet">
+              <div class="stripe"></div>
+              <div class="pad" style="font-size:12px;line-height:1.7;">
+                Haldi · Fri 24 · 09:00<br/>
+                Wedding · Sat 25 · 07:00<br/>
+                <span style="color:var(--mute);">Gachibowli · Telugu · 70-200</span>
+              </div>
+            </div>
+            <button class="btn gel" data-go="talent-jobs" data-i18n="offer.accept">I’m in</button>
+            <button class="btn secondary" data-go="talent-home" data-i18n="offer.pass">Pass</button>
+          </div>
+        </section>
+
+        <!-- TALENT JOBS -->
+        <section class="screen" id="talent-jobs" data-kicker="Freelancer" data-title="Bookings" data-desc="Confirmed gigs with deposit status.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header"><h3 class="serif" data-i18n="tab.booked">Booked</h3></div>
+          <div class="body">
+            <div class="callsheet" data-go="talent-chat" style="cursor:pointer;">
+              <div class="stripe"></div>
+              <div class="pad">
+                <div class="code">Deposit in · LensArt</div>
+                <h4>Reddy Wedding</h4>
+                <div class="grid2">
+                  <div>Role<strong>Second</strong></div>
+                  <div>Pay<strong>₹8k / day</strong></div>
+                </div>
+              </div>
+            </div>
+            <div class="list-card" data-go="talent-review">
+              <div class="avatar p4"></div>
+              <div>
+                <h4>Kapoor Haldi</h4>
+                <p style="color:var(--amber);">Rate this studio</p>
+              </div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <button data-go="talent-home"><span class="ico">◆</span>Home</button>
+            <button data-go="calendar"><span class="ico">▦</span>Days</button>
+            <button class="on" data-go="talent-jobs"><span class="ico">☰</span>Booked</button>
+            <button data-go="talent-profile"><span class="ico">◎</span>You</button>
+          </div>
+        </section>
+
+        <!-- TALENT PROFILE -->
+        <section class="screen" id="talent-profile" data-kicker="Freelancer" data-title="Profile" data-desc="Portfolio identity — rates and gear as craft tools.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="talent-home">‹</button>
+            <h3 class="serif">Your frame</h3>
+          </div>
+          <div class="body">
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">
+              <div class="avatar lg p1"></div>
+              <div>
+                <div style="font-size:16px;font-weight:600;">Ravi Kumar</div>
+                <div style="font-size:12px;color:var(--mute);">Hyderabad · Second</div>
+              </div>
+            </div>
+            <div class="filmstrip">
+              <div class="f p1"></div><div class="f p4"></div><div class="f p2"></div><div class="f p5"></div>
+            </div>
+            <div class="label">Roles</div>
+            <div class="chip-row">
+              <span class="chip">Assistant</span>
+              <span class="chip on">Second</span>
+              <span class="chip">Cine</span>
+            </div>
+            <div class="field filled">₹7,500 / day · 25 km</div>
+            <div class="field filled">R6 · 24-70 · 70-200 · Godox</div>
+            <div class="field" style="font-family:Instrument Serif,serif;font-style:italic;color:var(--bone);">Telugu weddings. Quiet feet. Strong candids.</div>
+            <button class="btn gel" data-go="calendar">Save · edit days →</button>
+          </div>
+        </section>
+
+        <!-- TALENT CHAT -->
+        <section class="screen" id="talent-chat" data-kicker="Freelancer" data-title="Chat" data-desc="Same production thread from talent side.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="talent-jobs">‹</button>
+            <h3>LensArt</h3>
+          </div>
+          <div class="body">
+            <div class="msg out">Confirmed both days. Call 6:30 at Gate 2?</div>
+            <div class="msg in">Yes — black kit, soft candids for baraat.</div>
+          </div>
+          <div class="composer">
+            <div class="field">Reply…</div>
+            <button class="btn sm gel">Send</button>
+          </div>
+        </section>
+
+        <!-- TALENT REVIEW -->
+        <section class="screen" id="talent-review" data-kicker="Freelancer" data-title="Rate studio" data-desc="Two-way trust — studios feel accountable too.">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <div class="header">
+            <button class="back" data-go="talent-jobs">‹</button>
+            <h3 class="serif">Rate studio</h3>
+          </div>
+          <div class="body">
+            <div class="stars">★★★★★</div>
+            <div class="chip-row">
+              <span class="chip on">Paid fast</span>
+              <span class="chip on">Clear brief</span>
+              <span class="chip on">Good food</span>
+            </div>
+            <div class="field" style="min-height:72px;font-family:Instrument Serif,serif;font-style:italic;color:var(--bone);">
+              Knew exactly what coverage they wanted…
+            </div>
+            <button class="btn gel" data-go="talent-home">Done</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const titleEl = document.getElementById("screenTitle");
+    const descEl = document.getElementById("screenDesc");
+    const kickerEl = document.getElementById("screenKicker");
+    const phone = document.getElementById("phone");
+    const langPill = document.getElementById("langPill");
+    const screens = [...document.querySelectorAll(".screen")];
+    const navBtns = [...document.querySelectorAll("aside button[data-go]")];
+
+    const I18N = {
+      en: {
+        "welcome.title": "Frame<br/>With Me",
+        "welcome.sub": "The set board for Indian wedding crews.<br/>Studios hire. Freelancers get booked.",
+        "welcome.cta": "Start shooting",
+        "welcome.login": "I have an account",
+        "lang.title": "App language",
+        "lang.sub": "Hyd crews in Telugu. North-ready Hindi. English anytime. You can change this later in Settings.",
+        "lang.continue": "Continue",
+        "lang.hint": "Job notes & chat stay in whatever language you type — only the app chrome is translated.",
+        "lang.settingsTitle": "Language",
+        "lang.settingsSub": "Tap a language — the whole app UI updates instantly.",
+        "lang.done": "Done",
+        "lang.seeFreelancer": "Preview freelancer home",
+        "register.title": "Join the set",
+        "register.sub": "One number. Hyderabad first. No long forms.",
+        "register.name": "Name",
+        "register.mobile": "Mobile",
+        "register.city": "Home city",
+        "register.otp": "Send OTP",
+        "otp.title": "Verify",
+        "otp.sub": "Code to +91 98765 43210",
+        "otp.cta": "Enter the frame",
+        "otp.resend": "Resend in 0:28",
+        "role.title": "Who are you today?",
+        "role.studioMini": "Studio",
+        "role.studioTitle": "I hire crew",
+        "role.studioSub": "Build call sheets. Queue seconds, cine, drone. Fill Saturdays.",
+        "role.talentMini": "Freelancer",
+        "role.talentTitle": "I get booked",
+        "role.talentSub": "Open your calendar. Get offers. Climb assistant → lead.",
+        "role.bothMini": "Both",
+        "role.bothTitle": "I do both",
+        "role.bothSub": "Run your brand and second-shoot for others.",
+        "login.title": "Welcome back",
+        "login.changeLang": "Change language",
+        "studio.homeSub": "Hyderabad · peak Saturday in 5 days",
+        "studio.rolesOpen": "roles open",
+        "studio.rosterCount": "on your roster",
+        "studio.newCall": "New call sheet",
+        "studio.liveBoard": "Live on set board",
+        "studio.lockedIn": "Locked in",
+        "studio.depositPaid": "Arjun K · deposit paid · Fri call 5pm",
+        "tab.board": "Board",
+        "tab.jobs": "Jobs",
+        "tab.roster": "Roster",
+        "tab.look": "Look",
+        "tab.home": "Home",
+        "tab.days": "Days",
+        "tab.booked": "Booked",
+        "tab.you": "You",
+        "hire.title": "Call sheet",
+        "hire.production": "Production",
+        "hire.role": "Crew role",
+        "hire.functions": "Functions",
+        "hire.location": "Location",
+        "hire.notes": "Creative notes",
+        "hire.lookbook": "Open lookbook →",
+        "role.assistant": "Assistant",
+        "role.lead": "Lead",
+        "talent.daysOpen": "days open",
+        "talent.rating": "rating",
+        "talent.editCal": "Shape this week’s calendar",
+        "talent.hotOffer": "Hot offer",
+        "talent.locked": "Locked",
+        "talent.haldiMeta": "Assistant · Thu · deposit in",
+        "cal.month": "October",
+        "cal.sub": "Open days get offers. Busy days stay quiet.",
+        "cal.open": "Open",
+        "cal.busy": "Busy",
+        "cal.selected": "Selected · Sat 25",
+        "cal.openOffers": "Open for offers",
+        "cal.radiusHint": "Studios in 25 km can find you",
+        "cal.markBusy": "Mark busy",
+        "cal.keepOpen": "Keep open",
+        "offer.title": "Offer",
+        "offer.respondIn": "Respond in",
+        "offer.rateMeta": "per day · Second · 2 days",
+        "offer.studio": "Studio",
+        "offer.accept": "I’m in",
+        "offer.pass": "Pass",
+      },
+      te: {
+        "welcome.title": "ఫ్రేమ్<br/>విత్ మీ",
+        "welcome.sub": "భారతీయ పెళ్లి క్రూ కోసం సెట్ బోర్డ్.<br/>స్టూడియోలు హైర్ చేస్తాయి. ఫ్రీలాన్సర్లు బుక్ అవుతారు.",
+        "welcome.cta": "మొదలుపెట్టండి",
+        "welcome.login": "ఖాతా ఉంది",
+        "lang.title": "యాప్ భాష",
+        "lang.sub": "హైదరాబాద్ క్రూకి తెలుగు. నార్త్‌కి హిందీ. ఇంగ్లిష్ ఎప్పుడైనా. సెట్టింగ్స్‌లో మార్చవచ్చు.",
+        "lang.continue": "కొనసాగించండి",
+        "lang.hint": "జాబ్ నోట్స్ & చాట్ మీరు టైప్ చేసిన భాషలోనే ఉంటాయి — యాప్ UI మాత్రమే అనువదించబడుతుంది.",
+        "lang.settingsTitle": "భాష",
+        "lang.settingsSub": "భాషను ఎంచుకోండి — మొత్తం UI వెంటనే మారుతుంది.",
+        "lang.done": "సరే",
+        "lang.seeFreelancer": "ఫ్రీలాన్సర్ హోమ్ చూడండి",
+        "register.title": "సెట్‌లో చేరండి",
+        "register.sub": "ఒక నంబర్. ముందు హైదరాబాద్. పొడవైన ఫారమ్‌లు లేవు.",
+        "register.name": "పేరు",
+        "register.mobile": "మొబైల్",
+        "register.city": "నగరం",
+        "register.otp": "OTP పంపండి",
+        "otp.title": "ధృవీకరణ",
+        "otp.sub": "+91 98765 43210 కి కోడ్",
+        "otp.cta": "ఫ్రేమ్‌లోకి",
+        "otp.resend": "0:28 లో మళ్లీ పంపు",
+        "role.title": "ఈరోజు మీరు ఎవరు?",
+        "role.studioMini": "స్టూడియో",
+        "role.studioTitle": "నేను క్రూ హైర్ చేస్తాను",
+        "role.studioSub": "కాల్ షీట్లు. సెకండ్, సిని, డ్రోన్. శనివారాలు నింపండి.",
+        "role.talentMini": "ఫ్రీలాన్సర్",
+        "role.talentTitle": "నేను బుక్ అవుతాను",
+        "role.talentSub": "క్యాలెండర్ తెరవండి. ఆఫర్లు పొందండి. అసిస్టెంట్ → లీడ్.",
+        "role.bothMini": "రెండూ",
+        "role.bothTitle": "నేను రెండూ చేస్తాను",
+        "role.bothSub": "మీ బ్రాండ్ నడపండి, ఇతరులకు సెకండ్ షూట్ చేయండి.",
+        "login.title": "మళ్లీ స్వాగతం",
+        "login.changeLang": "భాష మార్చండి",
+        "studio.homeSub": "హైదరాబాద్ · 5 రోజుల్లో పీక్ శనివారం",
+        "studio.rolesOpen": "రోల్స్ ఓపెన్",
+        "studio.rosterCount": "మీ రోస్టర్‌లో",
+        "studio.newCall": "కొత్త కాల్ షీట్",
+        "studio.liveBoard": "సెట్ బోర్డ్‌లో లైవ్",
+        "studio.lockedIn": "లాక్ అయింది",
+        "studio.depositPaid": "అర్జున్ కె · డిపాజిట్ పెయిడ్ · శుక్ర 5pm",
+        "tab.board": "బోర్డ్",
+        "tab.jobs": "జాబ్స్",
+        "tab.roster": "రోస్టర్",
+        "tab.look": "లుక్",
+        "tab.home": "హోమ్",
+        "tab.days": "రోజులు",
+        "tab.booked": "బుక్",
+        "tab.you": "మీరు",
+        "hire.title": "కాల్ షీట్",
+        "hire.production": "ప్రొడక్షన్",
+        "hire.role": "క్రూ రోల్",
+        "hire.functions": "ఫంక్షన్లు",
+        "hire.location": "స్థలం",
+        "hire.notes": "క్రియేటివ్ నోట్స్",
+        "hire.lookbook": "లుక్‌బుక్ తెరవండి →",
+        "role.assistant": "అసిస్టెంట్",
+        "role.lead": "లీడ్",
+        "talent.daysOpen": "రోజులు ఓపెన్",
+        "talent.rating": "రేటింగ్",
+        "talent.editCal": "ఈ వారం క్యాలెండర్",
+        "talent.hotOffer": "కొత్త ఆఫర్",
+        "talent.locked": "లాక్",
+        "talent.haldiMeta": "అసిస్టెంట్ · గురు · డిపాజిట్",
+        "cal.month": "అక్టోబర్",
+        "cal.sub": "ఓపెన్ రోజులకు ఆఫర్లు. బిజీ రోజులు నిశ్శబ్దం.",
+        "cal.open": "ఓపెన్",
+        "cal.busy": "బిజీ",
+        "cal.selected": "ఎంపిక · శని 25",
+        "cal.openOffers": "ఆఫర్లకు ఓపెన్",
+        "cal.radiusHint": "25 కి.మీ లోని స్టూడియోలు మిమ్మల్ని చూస్తాయి",
+        "cal.markBusy": "బిజీగా పెట్టు",
+        "cal.keepOpen": "ఓపెన్ ఉంచు",
+        "offer.title": "ఆఫర్",
+        "offer.respondIn": "సమాధానం ఇవ్వండి",
+        "offer.rateMeta": "రోజుకు · Second · 2 రోజులు",
+        "offer.studio": "స్టూడియో",
+        "offer.accept": "నేను రెడీ",
+        "offer.pass": "వద్దు",
+      },
+      hi: {
+        "welcome.title": "फ्रेम<br/>विद मी",
+        "welcome.sub": "भारतीय शादी क्रू के लिए सेट बोर्ड।<br/>स्टूडियो हायर करें। फ्रीलांसर बुक हों।",
+        "welcome.cta": "शुरू करें",
+        "welcome.login": "खाता है",
+        "lang.title": "ऐप भाषा",
+        "lang.sub": "हैदराबाद के लिए तेलुगु। उत्तर के लिए हिंदी। अंग्रेज़ी कभी भी। सेटिंग्स में बदलें।",
+        "lang.continue": "आगे बढ़ें",
+        "lang.hint": "जॉब नोट्स और चैट आपकी लिखी भाषा में रहेंगे — सिर्फ ऐप UI अनुवादित है।",
+        "lang.settingsTitle": "भाषा",
+        "lang.settingsSub": "भाषा चुनें — पूरा UI तुरंत बदल जाएगा।",
+        "lang.done": "हो गया",
+        "lang.seeFreelancer": "फ्रीलांसर होम देखें",
+        "register.title": "सेट में जुड़ें",
+        "register.sub": "एक नंबर। पहले हैदराबाद। लंबा फॉर्म नहीं।",
+        "register.name": "नाम",
+        "register.mobile": "मोबाइल",
+        "register.city": "शहर",
+        "register.otp": "OTP भेजें",
+        "otp.title": "वेरिफाई",
+        "otp.sub": "+91 98765 43210 पर कोड",
+        "otp.cta": "फ्रेम में आएँ",
+        "otp.resend": "0:28 में फिर भेजें",
+        "role.title": "आज आप कौन हैं?",
+        "role.studioMini": "स्टूडियो",
+        "role.studioTitle": "मैं क्रू हायर करता/करती हूँ",
+        "role.studioSub": "कॉल शीट। सेकंड, सिने, ड्रोन। शनिवार भरें।",
+        "role.talentMini": "फ्रीलांसर",
+        "role.talentTitle": "मैं बुक होता/होती हूँ",
+        "role.talentSub": "कैलेंडर खोलें। ऑफर पाएँ। असिस्टेंट → लीड।",
+        "role.bothMini": "दोनों",
+        "role.bothTitle": "मैं दोनों करता/करती हूँ",
+        "role.bothSub": "अपना ब्रांड चलाएँ और दूसरों के लिए सेकंड शूट करें।",
+        "login.title": "वापसी पर स्वागत",
+        "login.changeLang": "भाषा बदलें",
+        "studio.homeSub": "हैदराबाद · 5 दिन में पीक शनिवार",
+        "studio.rolesOpen": "रोल खुले",
+        "studio.rosterCount": "आपकी रोस्टर में",
+        "studio.newCall": "नई कॉल शीट",
+        "studio.liveBoard": "सेट बोर्ड पर लाइव",
+        "studio.lockedIn": "लॉक हो गया",
+        "studio.depositPaid": "अर्जुन के · डिपॉज़िट पेड · शुक्र 5pm",
+        "tab.board": "बोर्ड",
+        "tab.jobs": "जॉब्स",
+        "tab.roster": "रोस्टर",
+        "tab.look": "लुक",
+        "tab.home": "होम",
+        "tab.days": "दिन",
+        "tab.booked": "बुक",
+        "tab.you": "आप",
+        "hire.title": "कॉल शीट",
+        "hire.production": "प्रोडक्शन",
+        "hire.role": "क्रू रोल",
+        "hire.functions": "फंक्शन",
+        "hire.location": "लोकेशन",
+        "hire.notes": "क्रिएटिव नोट्स",
+        "hire.lookbook": "लुकबुक खोलें →",
+        "role.assistant": "असिस्टेंट",
+        "role.lead": "लीड",
+        "talent.daysOpen": "दिन खुले",
+        "talent.rating": "रेटिंग",
+        "talent.editCal": "इस हफ़्ते का कैलेंडर",
+        "talent.hotOffer": "नया ऑफर",
+        "talent.locked": "लॉक",
+        "talent.haldiMeta": "असिस्टेंट · गुरु · डिपॉज़िट",
+        "cal.month": "अक्टूबर",
+        "cal.sub": "खुले दिन पर ऑफर। व्यस्त दिन शांत।",
+        "cal.open": "खुला",
+        "cal.busy": "व्यस्त",
+        "cal.selected": "चयन · शनि 25",
+        "cal.openOffers": "ऑफर के लिए खुला",
+        "cal.radiusHint": "25 किमी के स्टूडियो आपको ढूँढेंगे",
+        "cal.markBusy": "व्यस्त करें",
+        "cal.keepOpen": "खुला रखें",
+        "offer.title": "ऑफर",
+        "offer.respondIn": "जवाब दें",
+        "offer.rateMeta": "प्रति दिन · Second · 2 दिन",
+        "offer.studio": "स्टूडियो",
+        "offer.accept": "मैं तैयार",
+        "offer.pass": "नहीं",
+      },
+    };
+
+    let locale = localStorage.getItem("fwm_lang") || "en";
+
+    function applyLang(lang) {
+      locale = lang;
+      localStorage.setItem("fwm_lang", lang);
+      phone.dataset.lang = lang;
+      langPill.textContent = lang.toUpperCase();
+      const dict = I18N[lang] || I18N.en;
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        const val = dict[key] ?? I18N.en[key];
+        if (val != null) el.innerHTML = val;
+      });
+      document.querySelectorAll(".lang-card").forEach((card) => {
+        card.classList.toggle("on", card.dataset.setLang === lang);
+      });
+    }
+
+    function go(id) {
+      const screen = document.getElementById(id);
+      if (!screen) return;
+      screens.forEach((s) => s.classList.remove("active"));
+      screen.classList.add("active");
+      titleEl.textContent = screen.dataset.title || id;
+      descEl.textContent = screen.dataset.desc || "";
+      kickerEl.textContent = screen.dataset.kicker || "Frame With Me";
+      navBtns.forEach((b) => b.classList.toggle("active", b.dataset.go === id));
+      screen.querySelector(".body")?.scrollTo(0, 0);
+    }
+
+    document.body.addEventListener("click", (e) => {
+      const langCard = e.target.closest("[data-set-lang]");
+      if (langCard) {
+        e.preventDefault();
+        applyLang(langCard.dataset.setLang);
+        return;
+      }
+      const t = e.target.closest("[data-go]");
+      if (!t) return;
+      e.preventDefault();
+      go(t.dataset.go);
+    });
+
+    applyLang(locale);
+  </script>
+</body>
+</html>
